@@ -24,6 +24,11 @@ public class CharactersController {
         return service.findAll();
     }
 
+    @GetMapping("/all")
+    public Iterable<Characters> findAllCharacters(){
+        return service.findAllCharacters();
+    }
+
     @PostMapping("/save")
     public Characters save(/*@RequestParam(value = "file") MultipartFile image, */@RequestBody Characters character){
        /*Characters c = character;

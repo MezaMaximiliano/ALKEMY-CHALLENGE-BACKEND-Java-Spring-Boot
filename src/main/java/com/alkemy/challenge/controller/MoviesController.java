@@ -24,7 +24,7 @@ public class MoviesController {
         return service.findAll();
     }
 
-    @GetMapping("/todos")
+    @GetMapping("/all")
     public Iterable<Movies> todos(){
         return service.findAllMovies();
     }
