@@ -32,4 +32,8 @@ public class Movies {
     @ManyToMany(mappedBy = "moviesList",fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<Characters> charactersList;
+
+    @ManyToOne
+    @JoinColumn(name = "gender_id")
+    private Gender gender_id;
 }

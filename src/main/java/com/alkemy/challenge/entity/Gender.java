@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +20,8 @@ public class Gender {
 
     private String name;
     private String image;
+
+    @OneToMany(mappedBy = "gender_id")
+    private List<Movies> moviesList;
+
 }
