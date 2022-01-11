@@ -16,7 +16,7 @@ spring:
     main:
       banner-mode: off
     format:
-      date: yyyy-MM-dd
+      date: yyyy/MM/dd
   sendgrid:
     api:
       key: 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

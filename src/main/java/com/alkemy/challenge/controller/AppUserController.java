@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -46,9 +47,16 @@ public class AppUserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user){
+    public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user, HttpServletResponse response){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        AppUser appUser = userService.saveUser(user);
+
+        if(appUser == null){
+            response.addHeader("Error", "Usuario ya existente");
+            return ResponseEntity.status(BAD_REQUEST).body(user);
+        }else{
+            return ResponseEntity.created(uri).body(appUser);
+        }
     }
 
     @PostMapping("/role/save")

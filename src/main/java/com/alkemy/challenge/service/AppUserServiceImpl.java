@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,11 +39,15 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public AppUser saveUser(AppUser appUser) {
-        log.info("Nuevo usuario: {} guardado en la base de datos", appUser.getName());
 
+        if(userRepository.findByEmail(appUser.getEmail()) != null){
+            log.error("El email ya se encuentra registrado.");
+            return null;
+        }
 
         appUser.setPassword(encoder.encode(appUser.getPassword()));
         userRepository.save(appUser);
+        log.info("Nuevo usuario: {} guardado en la base de datos", appUser.getName());
 
         if(getAppUsers().size() == 1){
             addRoleToUser(appUser.getEmail(),"ADMIN");
