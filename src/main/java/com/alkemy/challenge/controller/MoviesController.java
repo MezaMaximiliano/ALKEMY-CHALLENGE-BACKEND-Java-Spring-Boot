@@ -78,6 +78,11 @@ public class MoviesController {
         return service.findByTitle(title);
     }
 
+    @GetMapping(params = "genre")
+    public Iterable<Object[]> findByGerder_id(@RequestParam("genre") Integer genderId){
+        return service.findByGerder_id(genderId);
+    }
+
 
 
 }

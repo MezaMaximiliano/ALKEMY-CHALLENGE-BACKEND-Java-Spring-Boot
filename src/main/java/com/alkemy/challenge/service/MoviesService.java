@@ -17,7 +17,6 @@ public class MoviesService {
 
     @Transactional
     public Movies save(Movies movie){
-        Movies mov = movie;
         return repository.save(movie);
     }
 
@@ -34,6 +33,11 @@ public class MoviesService {
     @Transactional
     public Iterable<Object[]> findAll(){
         return repository.allMovies();
+    }
+
+    @Transactional
+    public Iterable<Object[]> findByGerder_id(Integer genderId){
+        return repository.findByGerder_id(genderId);
     }
 
     @Transactional
