@@ -5,7 +5,11 @@ import com.alkemy.challenge.entity.Gender;
 import com.alkemy.challenge.service.GenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,9 +44,8 @@ public class GenderController {
     }
 
     @PostMapping("/save")
-    public Gender save(/*@RequestParam(value = "file") MultipartFile image, */@RequestBody Gender gender){
-       /*Characters c = character;
-       c.setImage("");
+    public Gender save(@RequestParam(value = "file") MultipartFile image, @ModelAttribute Gender gender){
+
         if(!image.isEmpty() ){
             Path imagesPath = Paths.get("src//main//resources//static//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
@@ -50,13 +53,13 @@ public class GenderController {
                 byte[] bytes = image.getBytes();
                 Path route = Paths.get(absolutPath + image.getOriginalFilename());
                 Files.write(route, bytes);
-                character.setImage(image.getOriginalFilename());
+                gender.setImage(image.getOriginalFilename());
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }*/
-        gender.setImage("");
+        }
+
         return service.save(gender);
     }
 }

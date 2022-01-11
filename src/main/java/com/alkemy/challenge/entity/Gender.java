@@ -1,6 +1,8 @@
 package com.alkemy.challenge.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +23,8 @@ public class Gender {
     private String name;
     private String image;
 
+    //@JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "gender_id")
     private List<Movies> moviesList;
 

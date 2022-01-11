@@ -3,6 +3,7 @@ package com.alkemy.challenge.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,10 +30,12 @@ public class Movies {
     private Date date;
     private Integer qualification;
 
-    @ManyToMany(mappedBy = "moviesList",fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
-    @JsonIgnore
+    @JsonBackReference
+    //@JsonManagedReference
+    @ManyToMany(mappedBy = "moviesList",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Characters> charactersList;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "gender_id")
     private Gender gender_id;

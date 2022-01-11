@@ -30,9 +30,8 @@ public class CharactersController {
     }
 
     @PostMapping("/save")
-    public Characters save(/*@RequestParam(value = "file") MultipartFile image, */@RequestBody Characters character){
-       /*Characters c = character;
-       c.setImage("");
+    public Characters save(@RequestParam(value = "file") MultipartFile image, @ModelAttribute Characters character){
+
         if(!image.isEmpty() ){
             Path imagesPath = Paths.get("src//main//resources//static//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
@@ -45,8 +44,8 @@ public class CharactersController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }*/
-        character.setImage("");
+        }
+
         return service.save(character);
     }
 
@@ -76,6 +75,11 @@ public class CharactersController {
     @GetMapping(params = "age")
     public Iterable<Object[]> findByAge(@RequestParam("age") Integer age){
         return service.findByAge(age);
+    }
+
+    @GetMapping(params = "movies")
+    public Iterable<Object[]> findByMoviesList(@RequestParam("movies") Integer movieId){
+        return service.findByMoviesId(movieId);
     }
 
 

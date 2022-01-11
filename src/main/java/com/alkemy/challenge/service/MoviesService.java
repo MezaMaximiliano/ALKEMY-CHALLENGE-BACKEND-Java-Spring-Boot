@@ -17,6 +17,7 @@ public class MoviesService {
 
     @Transactional
     public Movies save(Movies movie){
+        Movies mov = movie;
         return repository.save(movie);
     }
 

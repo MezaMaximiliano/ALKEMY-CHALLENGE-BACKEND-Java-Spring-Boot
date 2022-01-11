@@ -40,6 +40,11 @@ public class CharactersService {
     }
 
     @Transactional
+    public Iterable<Object[]> findByMoviesId(Integer movieId){
+        return repository.findByMoviesId(movieId);
+    }
+
+    @Transactional
     public Iterable<Object[]> findByAge(Integer age){
         return repository.findByAge(age);
     }

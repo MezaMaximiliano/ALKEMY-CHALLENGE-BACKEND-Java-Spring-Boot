@@ -30,8 +30,9 @@ public class MoviesController {
     }
 
     @PostMapping("/save")
-    public Movies save(/*@RequestParam(value = "file", required = false) MultipartFile image, */@RequestBody Movies movie){
-        /*if(!image.isEmpty() ){
+    public Movies save(@RequestParam("file") MultipartFile image, @ModelAttribute Movies movie){
+
+        if(!image.isEmpty() ){
             Path imagesPath = Paths.get("src//main//resources//static//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {
@@ -43,8 +44,8 @@ public class MoviesController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }*/
-        movie.setImage("");
+        }
+
         return service.save(movie);
     }
 

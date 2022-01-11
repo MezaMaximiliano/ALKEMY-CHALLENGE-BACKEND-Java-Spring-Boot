@@ -1,5 +1,6 @@
 package com.alkemy.challenge.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,9 @@ public class Characters {
     private Integer weight;
     private String history;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    //@JsonBackReference
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "characters_movies",
             joinColumns = {
                     @JoinColumn(name = "character_id", nullable = false)},
