@@ -33,7 +33,7 @@ public class MoviesController {
     public Movies save(@RequestParam("file") MultipartFile image, @ModelAttribute Movies movie){
 
         if(!image.isEmpty() ){
-            Path imagesPath = Paths.get("src//main//resources//static//images");
+            Path imagesPath = Paths.get("src//main//resources//static//img//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {
                 byte[] bytes = image.getBytes();

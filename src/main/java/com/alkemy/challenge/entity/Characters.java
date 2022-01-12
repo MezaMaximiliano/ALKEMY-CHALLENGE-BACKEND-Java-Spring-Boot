@@ -1,11 +1,9 @@
 package com.alkemy.challenge.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,7 +24,6 @@ public class Characters {
     private Integer weight;
     private String history;
 
-    //@JsonBackReference
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "characters_movies",

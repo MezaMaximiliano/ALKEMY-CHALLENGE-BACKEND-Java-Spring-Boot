@@ -47,7 +47,7 @@ public class GenderController {
     public Gender save(@RequestParam(value = "file") MultipartFile image, @ModelAttribute Gender gender){
 
         if(!image.isEmpty() ){
-            Path imagesPath = Paths.get("src//main//resources//static//images");
+            Path imagesPath = Paths.get("src//main//resources//static//img//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {
                 byte[] bytes = image.getBytes();

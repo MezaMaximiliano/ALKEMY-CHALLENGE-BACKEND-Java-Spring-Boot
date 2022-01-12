@@ -1,4 +1,4 @@
-package com.alkemy.challenge.token;
+package com.alkemy.challenge.security.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class AppUserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager){
+    public AppUserAuthenticationFilter(AuthenticationManager authenticationManager){
         this.authenticationManager=authenticationManager;
     }
 

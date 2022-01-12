@@ -17,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -69,7 +68,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     @Override
     public Role saveRole(Role role) {
         log.info("Nuevo rol: {} guardado en la base de datos",role.getName());
-
         return roleRepository.save(role);
     }
 
@@ -77,9 +75,9 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public void addRoleToUser(String email, String rolName) {
         AppUser user = userRepository.findByEmail(email);
         user.getRoles().add(roleRepository.findByName(rolName));
-        Collection<Role> roles = user.getRoles();
+        //Collection<Role> roles = user.getRoles();
         log.info("Rol {} agregado al usuario {}",rolName,email);
-//no hace falta llamar al metodo save por la notacion transccional en la clase
+
     }
 
     @Override
@@ -110,9 +108,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
             log.info("Usuario encotrado");
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        /*appUser.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });*/
 
         for(Role role: appUser.getRoles()){
             authorities.add(new SimpleGrantedAuthority(role.getName()));

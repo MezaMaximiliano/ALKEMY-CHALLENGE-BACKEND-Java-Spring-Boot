@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SendGridConfig {
 
-    @Value("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")
+    @Value("${SENDGRID_KEY}")
     private String sendGridApiKey;
 
-    @Value("meza.maximiliano@hotmail.com")
+    @Value("${EMAIL}")
     private String senderMail;
 }

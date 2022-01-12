@@ -2,6 +2,7 @@ package com.alkemy.challenge.controller;
 
 import com.alkemy.challenge.entity.AppUser;
 import com.alkemy.challenge.entity.Role;
+import com.alkemy.challenge.model.RoleToUserForm;
 import com.alkemy.challenge.service.AppUserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -52,7 +53,7 @@ public class AppUserController {
         AppUser appUser = userService.saveUser(user);
 
         if(appUser == null){
-            response.addHeader("Error", "Usuario ya existente");
+            response.addHeader("Error", "El usuario ya existe");
             return ResponseEntity.status(BAD_REQUEST).body(user);
         }else{
             return ResponseEntity.created(uri).body(appUser);
@@ -68,7 +69,7 @@ public class AppUserController {
     @PostMapping("/role/addtouser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/role/save").toUriString());
-        userService.addRoleToUser(form.getRoleNme(), form.getUserName());
+        userService.addRoleToUser( form.getUserName(),form.getRoleName());
         return ResponseEntity.ok().build();
     }
 
@@ -82,16 +83,14 @@ public class AppUserController {
                 Algorithm algorithm = Algorithm.HMAC256("secretkey".getBytes());
                 JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = jwtVerifier.verify(refreshToken);
-                String userName = decodedJWT.getSubject();
-                AppUser appUser = userService.getAppUser(userName);
+                String email = decodedJWT.getSubject();
+                AppUser appUser = userService.getAppUser(email);
 
                 String accessToken = JWT.create().withSubject(appUser.getEmail()).withExpiresAt(new Date(System.currentTimeMillis()+ 20 * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", appUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
 
-                /*response.setHeader("accessToken",accessToken);
-                 response.setHeader("refreshToken",refreshToken);*/
 
                 Map<String,String> tokens = new HashMap<>();
                 tokens.put("accessToken",accessToken);
@@ -104,7 +103,6 @@ public class AppUserController {
                 log.error("Error al loguearse : {}", ex.getMessage());
                 response.setHeader("Error",ex.getMessage());
                 response.setStatus(FORBIDDEN.value());
-                //response.sendError(FORBIDDEN.value());
 
                 Map<String,String> error = new HashMap<>();
                 error.put("Error : ",ex.getMessage());
@@ -119,8 +117,3 @@ public class AppUserController {
 
 }
 
-@Data
-class RoleToUserForm{
-    private String userName;
-    private String roleNme;
-}

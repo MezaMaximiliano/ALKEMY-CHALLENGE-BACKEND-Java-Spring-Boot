@@ -19,5 +19,5 @@ spring:
       date: yyyy/MM/dd
   sendgrid:
     api:
-      key: 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
+      key: ${SENDGRID_KEY}
     sender: ${EMAIL}

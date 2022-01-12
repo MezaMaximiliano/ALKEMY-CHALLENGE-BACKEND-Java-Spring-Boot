@@ -33,7 +33,7 @@ public class CharactersController {
     public Characters save(@RequestParam(value = "file") MultipartFile image, @ModelAttribute Characters character){
 
         if(!image.isEmpty() ){
-            Path imagesPath = Paths.get("src//main//resources//static//images");
+            Path imagesPath = Paths.get("src//main//resources//static//img//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {
                 byte[] bytes = image.getBytes();

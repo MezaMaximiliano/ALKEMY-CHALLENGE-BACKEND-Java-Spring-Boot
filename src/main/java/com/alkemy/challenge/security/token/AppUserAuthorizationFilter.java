@@ -1,4 +1,4 @@
-package com.alkemy.challenge.token;
+package com.alkemy.challenge.security.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-public class CustomAuthorizationFilter extends OncePerRequestFilter {
+public class AppUserAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().equals("/auth/login") || request.getServletPath().equals("/auth/token/refresh") || request.getServletPath().equals("/auth/register")){
