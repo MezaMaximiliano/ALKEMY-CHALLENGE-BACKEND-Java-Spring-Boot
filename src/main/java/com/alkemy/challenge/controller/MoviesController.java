@@ -1,8 +1,9 @@
 package com.alkemy.challenge.controller;
 
-import com.alkemy.challenge.entity.Characters;
 import com.alkemy.challenge.entity.Movies;
+import com.alkemy.challenge.model.MovieModel;
 import com.alkemy.challenge.service.MoviesService;
+import com.alkemy.challenge.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/movies")
@@ -64,8 +64,8 @@ public class MoviesController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Movies> findById(@PathVariable("id") Integer id){
-        return service.findById(id);
+    public MovieModel findById(@PathVariable("id") Integer id){
+        return Util.convertMovies(service.findById(id).get());
     }
 
     @GetMapping(params = "order")
@@ -83,6 +83,5 @@ public class MoviesController {
         return service.findByGerder_id(genderId);
     }
 
-
-
 }
+

@@ -23,14 +23,15 @@ public class ChallengeApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-		/*@Bean
+		@Bean
 		CommandLineRunner run(AppUserService userService) {
 		return args -> {
-			userService.saveRole(new Role(null, "ADMIN"));
-			userService.saveRole(new Role(null, "USER"));
-
+			if(userService.findAllRoles().isEmpty()){
+				userService.saveRole(new Role(null, "ADMIN"));
+				userService.saveRole(new Role(null, "USER"));
+			}
 		};
 
-	}*/
+	}
 
 }

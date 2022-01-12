@@ -25,13 +25,11 @@ public class Movies {
     private String image;
     private String title;
 
-    //@Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date;
     private Integer qualification;
 
     @JsonBackReference
-    //@JsonManagedReference
     @ManyToMany(mappedBy = "moviesList",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Characters> charactersList;
 
