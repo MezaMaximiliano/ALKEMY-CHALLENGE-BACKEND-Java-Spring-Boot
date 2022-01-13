@@ -62,8 +62,8 @@ public class MoviesService {
     }
 
     @Transactional
-    public Iterable<Object[]> findByTitle(String title){
-        return repository.findByTitle(title);
+    public Iterable<Object[]> findByTitle(String name){
+        return repository.findByTitle(name);
     }
 
 

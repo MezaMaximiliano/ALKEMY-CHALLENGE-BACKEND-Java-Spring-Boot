@@ -4,7 +4,7 @@ import com.alkemy.challenge.entity.Movies;
 import com.alkemy.challenge.model.MovieModel;
 import com.alkemy.challenge.service.MoviesService;
 import com.alkemy.challenge.util.Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,14 +13,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/movies")
 public class MoviesController {
 
-    @Autowired
-    private MoviesService service;
+    private final MoviesService service;
 
     @GetMapping
     public Iterable<Object[]> findAll(){
+
         return service.findAll();
     }
 
@@ -73,9 +74,10 @@ public class MoviesController {
         return service.getAllByOrder(order);
     }
 
-    @GetMapping(params = "title")
-    public Iterable<Object[]> findByTitle(@RequestParam("title") String title){
-        return service.findByTitle(title);
+    @GetMapping(params = "name")
+    public Iterable<Object[]> findByTitle(@RequestParam("name") String name){
+
+        return service.findByTitle(name);
     }
 
     @GetMapping(params = "genre")

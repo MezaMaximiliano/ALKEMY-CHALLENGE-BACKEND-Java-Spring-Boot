@@ -5,6 +5,7 @@ import com.sendgrid.*;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 
@@ -20,6 +21,7 @@ public class SendEmailServiceImpl implements SendEmailService{
     }
 
     @Override
+    @Async
     public void sendEmailMessage(String subject, String message, String to) throws Exception {
         Email fromEmail = new Email(sendGridConfig.getSenderMail());
         Email toEmail = new Email(to);

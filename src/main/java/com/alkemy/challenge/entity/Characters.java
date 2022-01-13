@@ -25,7 +25,7 @@ public class Characters {
     private String history;
 
     @JsonManagedReference
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinTable(name = "characters_movies",
             joinColumns = {
                     @JoinColumn(name = "character_id", nullable = false)},

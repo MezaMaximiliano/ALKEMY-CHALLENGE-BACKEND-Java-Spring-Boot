@@ -1,7 +1,6 @@
 package com.alkemy.challenge.model;
 
 import com.alkemy.challenge.entity.Characters;
-import com.alkemy.challenge.entity.Gender;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,5 +14,5 @@ public class MovieModel {
     private Date date;
     private Integer qualification;
     private List<Characters> charactersList;
-    private Gender gender_id;
+    private String gender;
 }

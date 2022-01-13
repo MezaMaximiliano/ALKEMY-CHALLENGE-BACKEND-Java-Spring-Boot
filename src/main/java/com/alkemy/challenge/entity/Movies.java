@@ -2,8 +2,6 @@ package com.alkemy.challenge.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +28,7 @@ public class Movies {
     private Integer qualification;
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "moviesList",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "moviesList",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Characters> charactersList;
 
     @JsonBackReference

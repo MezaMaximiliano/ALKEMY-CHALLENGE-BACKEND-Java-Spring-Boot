@@ -1,9 +1,8 @@
 package com.alkemy.challenge.controller;
 
-import com.alkemy.challenge.entity.Characters;
 import com.alkemy.challenge.entity.Gender;
 import com.alkemy.challenge.service.GenderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,11 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/genders")
 public class GenderController {
 
-    @Autowired
-    private GenderService service;
+
+    private final GenderService service;
 
     @GetMapping
     public List<Gender> findeAll(){

@@ -4,6 +4,7 @@ import com.alkemy.challenge.entity.AppUser;
 import com.alkemy.challenge.entity.Role;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AppUserService {
 
@@ -13,5 +14,8 @@ public interface AppUserService {
     AppUser getAppUser(String email);
     List<AppUser> getAppUsers();
     List<Role> findAllRoles();
+    void disableUser(Long id);
+    void enableUser(Long id);
+    Optional<AppUser> findById(Long id);
 
 }

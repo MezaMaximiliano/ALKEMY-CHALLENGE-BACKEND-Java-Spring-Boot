@@ -17,15 +17,15 @@ public interface MoviesRepository extends JpaRepository<Movies,Integer> {
     @Override
     List<Movies> findAll();
 
-    Iterable<Object[]> findByTitle(String title);
+    Iterable<Object[]> findByTitle(String name);
 
-    @Query("SELECT image,title,date FROM Movies")
+    @Query(value = "SELECT image,title,date FROM Movies", nativeQuery = true)
     Iterable<Object[]> allMovies();
 
-    @Query(value = "SELECT * FROM movies ORDER BY date",nativeQuery = true)
+    @Query(value = "SELECT image,title,date FROM movies ORDER BY date",nativeQuery = true)
     Iterable<Object[]> getAllByOrdAsc();
 
-    @Query(value = "SELECT * FROM movies ORDER BY date DESC",nativeQuery = true)
+    @Query(value = "SELECT image,title,date FROM movies ORDER BY date DESC",nativeQuery = true)
     Iterable<Object[]> getAllByOrdDesc();
 
     @Query(value = "SELECT * FROM Movies WHERE gender_id = ?1",nativeQuery = true)

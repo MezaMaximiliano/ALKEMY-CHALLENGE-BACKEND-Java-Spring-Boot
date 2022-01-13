@@ -3,7 +3,7 @@ package com.alkemy.challenge.controller;
 
 import com.alkemy.challenge.entity.Characters;
 import com.alkemy.challenge.service.CharactersService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,11 +13,11 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/characters")
 public class CharactersController {
 
-    @Autowired
-    private CharactersService service;
+    private final CharactersService service;
 
     @GetMapping
     public Iterable<Object[]> findAll(){

@@ -20,7 +20,7 @@ public class CharactersService {
     }
 
     @Transactional
-    public Boolean delete(Integer id)throws Exception{
+    public Boolean delete(Integer id){
         try{
             repository.deleteById(id);
             return true;

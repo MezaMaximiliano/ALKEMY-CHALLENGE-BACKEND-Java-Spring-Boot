@@ -5,23 +5,23 @@ import com.alkemy.challenge.model.MovieModel;
 
 public class Util{
 
-
-    public static String format(String chain, String parameter){
-        chain = String.format(chain,parameter);
+    public static String format(String chain, String name,String userName, String password){
+        chain = String.format(chain,name,userName,password);
         return chain;
     }
 
     public static MovieModel convertMovies(Movies movie){
-        MovieModel movModel = new MovieModel();
+        MovieModel model = new MovieModel();
 
-        movModel.setId(movie.getId());
-        movModel.setTitle(movie.getTitle());
-        movModel.setImage(movie.getImage());
-        movModel.setDate(movie.getDate());
-        movModel.setQualification(movie.getQualification());
-        movModel.setCharactersList(movie.getCharactersList());
-        movModel.setGender_id(movie.getGender_id());
+        model.setId(movie.getId());
+        model.setTitle(movie.getTitle());
+        model.setImage(movie.getImage());
+        model.setDate(movie.getDate());
+        model.setQualification(movie.getQualification());
+        model.setCharactersList(movie.getCharactersList());
+        model.setGender(movie.getGender_id().getName());
 
-        return movModel;
+        return model;
     }
+
 }

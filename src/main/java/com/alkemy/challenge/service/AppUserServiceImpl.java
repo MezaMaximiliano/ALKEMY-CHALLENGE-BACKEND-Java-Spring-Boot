@@ -7,6 +7,7 @@ import com.alkemy.challenge.repository.AppUserRepository;
 import com.alkemy.challenge.repository.RoleRepository;
 import com.alkemy.challenge.util.Util;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -20,12 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class AppUserServiceImpl implements AppUserService, UserDetailsService {
+public class AppUserServiceImpl  implements AppUserService, UserDetailsService {
 
     private final AppUserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -33,7 +35,8 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     private final SendEmailService sendEmailService;
 
     private final String _SUBJET = "Registro exitoso";
-    private final String _MESSAGE = "%s, te damos la bienvenida al Mundo de Disney!!";
+    private final String _MESSAGE = "%s, te damos la bienvenida al Mundo de Disney!!\n" +
+            "Usuario: %s\nContraseña: %s";
 
 
     @Override
@@ -44,20 +47,16 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
             return null;
         }
 
+        String message = Util.format(_MESSAGE,appUser.getName(),appUser.getEmail(),appUser.getPassword());
+
         appUser.setPassword(encoder.encode(appUser.getPassword()));
         userRepository.save(appUser);
         log.info("Nuevo usuario: {} guardado en la base de datos", appUser.getName());
 
-        if(getAppUsers().size() == 1){
-            addRoleToUser(appUser.getEmail(),"ADMIN");
-        }
-
-        if(appUser.getRoles().isEmpty()){
-            addRoleToUser(appUser.getEmail(),"USER");
-        }
+        setRoleToUser(appUser);//Se agrega roles al usuario que se registra
 
         try {
-            sendEmailService.sendEmailMessage(_SUBJET, Util.format(_MESSAGE,appUser.getName()),appUser.getEmail());
+            sendEmailService.sendEmailMessage(_SUBJET, message,appUser.getEmail());
         } catch (Exception err) {
             log.error(err.getMessage());
         }
@@ -75,7 +74,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public void addRoleToUser(String email, String rolName) {
         AppUser user = userRepository.findByEmail(email);
         user.getRoles().add(roleRepository.findByName(rolName));
-        //Collection<Role> roles = user.getRoles();
         log.info("Rol {} agregado al usuario {}",rolName,email);
 
     }
@@ -98,6 +96,34 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         return roleRepository.findAll();
     }
 
+    @SneakyThrows
+    @Override
+    public void disableUser(Long id) {
+        if(userRepository.findById(id).isPresent()){
+            userRepository.disableUser(id);
+        }else {
+            throw new Exception("Usuario no encontrado");
+        }
+    }
+
+
+
+    @SneakyThrows
+    @Override
+    public void enableUser(Long id){
+        if(userRepository.findById(id).isPresent()){
+            userRepository.enableUser(id);
+        }else {
+            throw new Exception("Usuario no encontrado");
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public Optional<AppUser> findById(Long id){
+        return userRepository.findById(id);
+  }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser appUser = userRepository.findByEmail(email);
@@ -115,5 +141,17 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
         return new User(appUser.getEmail(), appUser.getPassword(), authorities);
     }
+
+    private void setRoleToUser(AppUser appUser){
+        if(getAppUsers().size() == 1){
+            addRoleToUser(appUser.getEmail(),"ADMIN");
+            addRoleToUser(appUser.getEmail(),"USER");
+        }
+
+        if(appUser.getRoles().isEmpty()){
+            addRoleToUser(appUser.getEmail(),"USER");
+        }
+    }
+
 }
 

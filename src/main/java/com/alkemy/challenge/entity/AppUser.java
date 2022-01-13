@@ -27,4 +27,6 @@ public class AppUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
+
+    private Boolean enable = true;
 }

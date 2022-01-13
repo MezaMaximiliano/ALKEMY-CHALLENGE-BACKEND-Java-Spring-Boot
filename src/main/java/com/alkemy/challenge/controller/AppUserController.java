@@ -1,119 +1,64 @@
 package com.alkemy.challenge.controller;
 
 import com.alkemy.challenge.entity.AppUser;
-import com.alkemy.challenge.entity.Role;
-import com.alkemy.challenge.model.RoleToUserForm;
 import com.alkemy.challenge.service.AppUserService;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.URI;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/users")
 public class AppUserController {
 
     private final AppUserService userService;
 
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<AppUser>> getUsers(){
         return ResponseEntity.ok().body(userService.getAppUsers());
     }
 
-    @GetMapping("/roles")
-    public ResponseEntity<List<Role>> getRoles(){
-        return ResponseEntity.ok().body(userService.findAllRoles());
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user, HttpServletResponse response){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/save").toUriString());
-        AppUser appUser = userService.saveUser(user);
-
-        if(appUser == null){
-            response.addHeader("Error", "El usuario ya existe");
-            return ResponseEntity.status(BAD_REQUEST).body(user);
-        }else{
-            return ResponseEntity.created(uri).body(appUser);
+    @PostMapping("/disable/{id}")
+    public String disableAppUser(@PathVariable Long id,HttpServletResponse response){
+        try {
+            userService.disableUser(id);
+            return "Usuario ha sido deshabilitado";
+        }catch (Exception err){
+            response.setStatus(400);
+            return "Usuario no encontrado";
         }
+
     }
 
-    @PostMapping("/role/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/role/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
-    }
-
-    @PostMapping("/role/addtouser")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/role/save").toUriString());
-        userService.addRoleToUser( form.getUserName(),form.getRoleName());
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/token/refresh")
-    public void getRefreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authHeader = request.getHeader(AUTHORIZATION);
-        if(authHeader != null && authHeader.startsWith("Bearer ")) {
-            try {
-
-                String refreshToken = authHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secretkey".getBytes());
-                JWTVerifier jwtVerifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = jwtVerifier.verify(refreshToken);
-                String email = decodedJWT.getSubject();
-                AppUser appUser = userService.getAppUser(email);
-
-                String accessToken = JWT.create().withSubject(appUser.getEmail()).withExpiresAt(new Date(System.currentTimeMillis()+ 20 * 60 * 1000))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", appUser.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-                        .sign(algorithm);
-
-
-                Map<String,String> tokens = new HashMap<>();
-                tokens.put("accessToken",accessToken);
-                tokens.put("refreshToken",refreshToken);
-
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),tokens);
-
-            } catch (Exception ex) {
-                log.error("Error al loguearse : {}", ex.getMessage());
-                response.setHeader("Error",ex.getMessage());
-                response.setStatus(FORBIDDEN.value());
-
-                Map<String,String> error = new HashMap<>();
-                error.put("Error : ",ex.getMessage());
-
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),error);
-            }
-        }else {
-            throw new RuntimeException("Refresh token missing");
+    @PostMapping("/enable/{id}")
+    public String enableAppUser(@PathVariable Long id,HttpServletResponse response){
+        try {
+            userService.enableUser(id);
+            return "Usuario ha sido habilitado";
+        }catch (Exception err){
+            response.setStatus(400);
+            return "Usuario no encontrado";
         }
+
     }
+
+    @GetMapping("/{id}")
+    public Optional<AppUser> findById(@PathVariable Long id,HttpServletResponse response){
+       if(userService.findById(id).isPresent()){
+           return userService.findById(id);
+       }else{
+           response.setStatus(400);
+           response.addHeader("Error","Usuario no encontrado");
+           return null;
+       }
+    }
+
 
 }
 
