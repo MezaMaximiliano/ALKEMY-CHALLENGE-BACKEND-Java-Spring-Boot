@@ -47,13 +47,15 @@ public class AppUserServiceImpl  implements AppUserService, UserDetailsService {
             return null;
         }
 
+        //Genera el mensaje que se enviara en el cuerpo de mail de bienvenida
         String message = Util.format(_MESSAGE,appUser.getName(),appUser.getEmail(),appUser.getPassword());
 
         appUser.setPassword(encoder.encode(appUser.getPassword()));
         userRepository.save(appUser);
         log.info("Nuevo usuario: {} guardado en la base de datos", appUser.getName());
 
-        setRoleToUser(appUser);//Se agrega roles al usuario que se registra
+        //Se agrega roles al usuario que se registra
+        setRoleToUser(appUser);
 
         try {
             sendEmailService.sendEmailMessage(_SUBJET, message,appUser.getEmail());

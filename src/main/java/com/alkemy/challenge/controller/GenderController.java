@@ -44,9 +44,11 @@ public class GenderController {
     }
 
     @PostMapping("/save")
-    public Gender save(@RequestParam(value = "file") MultipartFile image, @ModelAttribute Gender gender){
+    public Gender save(@RequestParam(value = "file", required = false) MultipartFile image, @ModelAttribute Gender gender){
 
-        if(!image.isEmpty() ){
+        if(image == null){
+            gender.setImage("");
+        }else if(!image.isEmpty() ){
             Path imagesPath = Paths.get("src//main//resources//static//img//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {

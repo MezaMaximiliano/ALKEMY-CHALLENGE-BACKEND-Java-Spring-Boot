@@ -30,9 +30,11 @@ public class CharactersController {
     }
 
     @PostMapping("/save")
-    public Characters save(@RequestParam(value = "file") MultipartFile image, @ModelAttribute Characters character){
+    public Characters save(@RequestParam(value = "file", required = false) MultipartFile image, @ModelAttribute Characters character){
 
-        if(!image.isEmpty() ){
+        if(image == null){
+            character.setImage("");
+        }else if(!image.isEmpty() ){
             Path imagesPath = Paths.get("src//main//resources//static//img//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {

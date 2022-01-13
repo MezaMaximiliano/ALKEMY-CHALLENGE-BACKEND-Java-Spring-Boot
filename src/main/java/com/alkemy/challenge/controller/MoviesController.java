@@ -31,9 +31,11 @@ public class MoviesController {
     }
 
     @PostMapping("/save")
-    public Movies save(@RequestParam("file") MultipartFile image, @ModelAttribute Movies movie){
+    public Movies save(@RequestParam(value= "file", required = false) MultipartFile image , @ModelAttribute Movies movie){
 
-        if(!image.isEmpty() ){
+        if(image == null){
+            movie.setImage("");
+        }else if(!image.isEmpty() ){
             Path imagesPath = Paths.get("src//main//resources//static//img//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {
