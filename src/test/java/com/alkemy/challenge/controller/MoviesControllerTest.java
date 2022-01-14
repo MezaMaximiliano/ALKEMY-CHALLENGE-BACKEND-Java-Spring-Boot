@@ -113,7 +113,7 @@ class MoviesControllerTest {
     @Test
     void save() {
         when(moviesService.save(movie)).thenReturn(movie);
-        assertEquals(moviesController.save(image,movie),movieModel);
+        assertEquals(moviesController.save(image,movie),movie);
     }
 
     @Test

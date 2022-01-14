@@ -28,6 +28,8 @@ public interface MoviesRepository extends JpaRepository<Movies,Integer> {
     @Query(value = "SELECT image,title,date FROM movies ORDER BY date DESC",nativeQuery = true)
     Iterable<Object[]> getAllByOrdDesc();
 
-    @Query(value = "SELECT * FROM Movies WHERE gender_id = ?1",nativeQuery = true)
+    @Query(value = "SELECT m.* FROM movies m " +
+            "INNER JOIN gender g ON (m.gender=g.id) " +
+            "WHERE m.gender=?1",nativeQuery = true)
     Iterable<Object[]> findByGerder_id(Integer genderId);
 }

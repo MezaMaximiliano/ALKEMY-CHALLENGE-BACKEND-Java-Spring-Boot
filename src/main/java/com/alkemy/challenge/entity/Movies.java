@@ -28,11 +28,11 @@ public class Movies {
     private Integer qualification;
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "moviesList",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "moviesList",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Characters> charactersList;
 
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "gender_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gender")
     private Gender gender;
 }

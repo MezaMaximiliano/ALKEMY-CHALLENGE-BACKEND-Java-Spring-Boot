@@ -49,7 +49,7 @@ public class GenderController {
         if (image==null){
             gender.setImage("");
         } else if(!image.isEmpty() ){
-            Path imagesPath = Paths.get("src//main//resources//static//img//images");
+            Path imagesPath = Paths.get("src//main//resources//static//img//generos//images");
             String absolutPath = imagesPath.toFile().getAbsolutePath();
             try {
                 byte[] bytes = image.getBytes();

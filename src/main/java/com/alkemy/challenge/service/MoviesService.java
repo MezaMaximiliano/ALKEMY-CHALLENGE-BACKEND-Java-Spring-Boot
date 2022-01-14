@@ -13,17 +13,17 @@ import java.util.Optional;
 public class MoviesService {
 
     @Autowired
-    private MoviesRepository repository;
+    private MoviesRepository moviesRepository;
 
     @Transactional
     public Movies save(Movies movie){
-        return repository.save(movie);
+        return moviesRepository.save(movie);
     }
 
     @Transactional
     public Boolean delete(Integer id)throws Exception{
         try{
-            repository.deleteById(id);
+            moviesRepository.deleteById(id);
             return true;
         }catch (Exception err){
             return false;
@@ -32,36 +32,36 @@ public class MoviesService {
 
     @Transactional
     public Iterable<Object[]> findAll(){
-        return repository.allMovies();
+        return moviesRepository.allMovies();
     }
 
     @Transactional
     public Iterable<Object[]> findByGerder_id(Integer genderId){
-        return repository.findByGerder_id(genderId);
+        return moviesRepository.findByGerder_id(genderId);
     }
 
     @Transactional
     public List<Movies> findAllMovies(){
-        return repository.findAll();
+        return moviesRepository.findAll();
     }
 
     @Transactional
     public Iterable<Object[]> getAllByOrder(String order){
         if(order.equals("DESC")){
-            return  repository.getAllByOrdDesc();
+            return  moviesRepository.getAllByOrdDesc();
         }else{
-            return repository.getAllByOrdAsc();
+            return moviesRepository.getAllByOrdAsc();
         }
     }
 
     @Transactional
     public Optional<Movies> findById(Integer id){
-        return repository.findById(id);
+        return moviesRepository.findById(id);
     }
 
     @Transactional
     public Iterable<Object[]> findByTitle(String name){
-        return repository.findByTitle(name);
+        return moviesRepository.findByTitle(name);
     }
 
 
