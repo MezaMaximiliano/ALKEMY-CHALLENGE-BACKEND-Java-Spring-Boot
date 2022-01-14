@@ -31,7 +31,7 @@ public class MoviesController {
     }
 
     @PostMapping("/save")
-    public MovieModel save(@RequestParam("file") MultipartFile image, @ModelAttribute Movies movie){
+    public MovieModel save(@RequestParam(value = "file",required = false) MultipartFile image, @ModelAttribute Movies movie){
 
         if(image==null){
             movie.setImage("");
@@ -49,7 +49,7 @@ public class MoviesController {
             }
         }
 
-        return Util.convertMovies(movie);
+        return Util.convertMovies(service.save(movie));
     }
 
     @DeleteMapping("/delete/{id}")
