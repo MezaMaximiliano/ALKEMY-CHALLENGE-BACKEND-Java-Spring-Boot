@@ -34,5 +34,5 @@ public class Movies {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "gender_id")
-    private Gender gender_id;
+    private Gender gender;
 }

@@ -22,7 +22,7 @@ public class Gender {
     private String image;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "gender_id")
+    @OneToMany(mappedBy = "gender")
     private List<Movies> moviesList;
 
 }

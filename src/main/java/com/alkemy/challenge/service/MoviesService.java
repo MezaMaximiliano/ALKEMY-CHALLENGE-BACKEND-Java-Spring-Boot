@@ -56,8 +56,6 @@ public class MoviesService {
 
     @Transactional
     public Optional<Movies> findById(Integer id){
-        Movies mov = repository.findById(id).get();
-
         return repository.findById(id);
     }
 
