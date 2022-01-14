@@ -22,7 +22,7 @@ public class Gender {
     private String image;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "gender",fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gender_id")
     private List<Movies> moviesList;
 
 }

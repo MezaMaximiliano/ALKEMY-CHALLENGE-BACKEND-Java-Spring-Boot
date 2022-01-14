@@ -32,7 +32,7 @@ public class Movies {
     private List<Characters> charactersList;
 
     @JsonBackReference
-    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "gender")
-    private Gender gender;
+    @ManyToOne
+    @JoinColumn(name = "gender_id")
+    private Gender gender_id;
 }

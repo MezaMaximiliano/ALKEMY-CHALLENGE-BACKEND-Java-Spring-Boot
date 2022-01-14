@@ -26,13 +26,13 @@ public class RoleController {
         return ResponseEntity.ok().body(userService.findAllRoles());
     }
 
-    @PostMapping("/save")
+    @PostMapping("/role/save")
     public ResponseEntity<Role> saveRole(@RequestBody Role role){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/role/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveRole(role));
     }
 
-    @PostMapping("/addtouser")
+    @PostMapping("/role/addtouser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/role/save").toUriString());
         userService.addRoleToUser( form.getUserName(),form.getRoleName());

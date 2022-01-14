@@ -19,7 +19,7 @@ public class Util{
         model.setDate(movie.getDate());
         model.setQualification(movie.getQualification());
         model.setCharactersList(movie.getCharactersList());
-        model.setGender(movie.getGender().getName());
+        model.setGender(movie.getGender_id().getName());
 
         return model;
     }
